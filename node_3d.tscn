@@ -1,25 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://svmci4fpjnp3"]
+[gd_scene load_steps=5 format=3 uid="uid://svmci4fpjnp3"]
 
 [ext_resource type="Script" path="res://Node3d.cs" id="1_n7oxq"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_6e5ys"]
-size = Vector3(60, 2, 60)
-
-[sub_resource type="BoxMesh" id="BoxMesh_5jbte"]
-size = Vector3(60, 2, 60)
+[ext_resource type="PackedScene" uid="uid://d2wybk8wdbehh" path="res://Prefabs/room.tscn" id="2_usydy"]
+[ext_resource type="Script" path="res://BaseGenerator.cs" id="4_hdhgb"]
+[ext_resource type="PackedScene" uid="uid://up2o4qb5l1v0" path="res://Prefabs/wall.tscn" id="4_hrdym"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_n7oxq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.976733, 0.0190047, 0.213617, -3.26857e-05, 0.996079, -0.0884683, -0.214461, 0.0864028, 0.972903, 0.0989448, 10.6337, 0.11368)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_6e5ys")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D"]
-mesh = SubResource("BoxMesh_5jbte")
+transform = Transform3D(0.999936, 0.00658385, -0.00924616, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 60, 1.954)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0510984, 0.998694, 0, -0.998694, -0.0510984, 0, 11.8703, 0)
+
+[node name="BaseGenerator" type="Node3D" parent="." node_paths=PackedStringArray("DebugButton")]
+script = ExtResource("4_hdhgb")
+Room = ExtResource("2_usydy")
+Wall = ExtResource("4_hrdym")
+Steps = 250
+Walks = 1
+DebugButton = NodePath("../Control/Button")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Regenerate Base"
