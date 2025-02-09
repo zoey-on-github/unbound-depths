@@ -1,10 +1,11 @@
 using Godot;
 using System;
 
-public partial class Room : Node3D
+public partial class Door : Node3D
 {
-	[Export] public bool flooded;
-	[Export] public MeshInstance3D water; 
+	[Export] public bool open, broken;
+	[Export] public MeshInstance3D renderer;
+	[Export] public float durability = 10f;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -14,6 +15,11 @@ public partial class Room : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		water.Visible = flooded;
+		renderer.Visible = !open;
+	}
+
+	public void Break() {
+		broken = true;
+		open = true;
 	}
 }

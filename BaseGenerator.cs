@@ -2,20 +2,31 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+
+public struct WeightedPrefab {
+    float weight;
+    PackedScene prefab;
+}
 
 public partial class BaseGenerator : Node3D
 {
-    [Export] public PackedScene Room; 
-    [Export] public PackedScene Wall; 
+    [Export] public PackedScene RoomPrefab, Wall, DoorPrefab; 
+    [Export] public PackedScene[] LootPrefabs;
+    [Export] public float[] LootWeights;
+    [Export] public int minLoot, maxLoot;
     [Export] public int Steps = 50; 
 	[Export] public int Walks = 3;
     [Export] public int GridSize = 2; 
+    [Export] public float DoorOpenLikeliness = 0.3f;
     [Export] public bool AllowVerticalMovement = false; 
-    [Export] public Button DebugButton;
+    [Export] public Button DebugButton, DebugFloodButton;
     
     private HashSet<Vector3I> visitedPositions = new();
     private RandomNumberGenerator rng = new();
     private Vector3I currentPosition = Vector3I.Zero;
+    private Dictionary<Vector3I, Room> rooms = new();
+    private Dictionary<Vector3I, Door> doors = new();
 
     private HashSet<Vector3I> createdWalls = new();
 
@@ -24,11 +35,43 @@ public partial class BaseGenerator : Node3D
         GenerateBase();
 
         DebugButton.Pressed += GenerateBase;
+        DebugFloodButton.Pressed += FloodRandomRoom;
+    }
+
+    public override void _Process(double delta)
+    {
+        foreach (var item in rooms.ToArray()) {
+            if (!item.Value.flooded) { continue; }
+
+            var neighbours = GetNeighbours(item.Key);
+            foreach (var neighbour in neighbours) {
+                var midpoint = (neighbour + item.Key) / 2;
+                if (rooms.ContainsKey(neighbour)) { 
+                    if (doors[midpoint].open) {
+                        rooms[neighbour].flooded = true;
+                    } else {
+                        if (doors[midpoint].durability > 0.1f) {
+                            doors[midpoint].durability -= (float)delta;
+                        } else {
+                            doors[midpoint].Break();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void FloodRandomRoom() {
+        Debug.Print("Flooding room");
+        var unflooded = rooms.Values.Where(room => !room.flooded).ToArray();
+        unflooded[rng.RandiRange(0, unflooded.Length - 1)].flooded = true;
     }
 
     public void GenerateBase() {
         visitedPositions = new();
         createdWalls = new();
+        rooms = new();
+        doors = new();
 
         foreach (Node child in GetChildren())
         {
@@ -42,6 +85,34 @@ public partial class BaseGenerator : Node3D
 		}
 
 		GenerateWalls();
+        GenerateLoot();
+    }
+
+    private void GenerateLoot() {
+        int amount = rng.RandiRange(minLoot, maxLoot);
+        for (int i = 0; i < amount; i++) {
+            var room_positions = rooms.Keys.ToArray();
+            var room = room_positions[rng.RandiRange(0, room_positions.Length - 1)];
+            var addX = rng.RandfRange(-1f, 1f);
+            var addZ = rng.RandfRange(-1f, 1f);
+            var lootToSpawn = RandomLoot();
+            SpawnPrefab(lootToSpawn, (Vector3)room + new Vector3(addX, 0f, addZ));
+        }
+    }
+
+    private PackedScene RandomLoot() {
+        var totalWeights = LootWeights.Sum();
+        var n = rng.RandfRange(0f, totalWeights);
+
+        var currentWeight = 0f;
+        for (int i = 0; i < LootPrefabs.Length; i++) {
+            currentWeight += LootWeights[i];
+            if (n < currentWeight) {
+                return LootPrefabs[i];
+            }
+        }
+
+        return null;
     }
 
 	private void GenerateWalls() {
@@ -50,16 +121,35 @@ public partial class BaseGenerator : Node3D
 
 			foreach (var neighbour in neighbours) {
 				var midpoint = (neighbour + room) / 2;
-				if (!visitedPositions.Contains(neighbour) && !createdWalls.Contains(midpoint)) {
-					var wall = SpawnPrefab(Wall, midpoint);	
-					createdWalls.Add(midpoint);
+                if (!createdWalls.Contains(midpoint)) {
+                    createdWalls.Add(midpoint);
 
-                    // need to rotate
-                    if (Math.Abs((neighbour - room).Z) > 0) {
-                        // 90 degrees
-                        wall.RotateY(Mathf.Pi / 2f);
+                    if (!visitedPositions.Contains(neighbour)) {
+                        var wall = SpawnPrefab(Wall, midpoint);	
+
+                        // need to rotate
+                        if (Math.Abs((neighbour - room).Z) > 0) {
+                            // 90 degrees
+                            wall.RotateY(Mathf.Pi / 2f);
+                        }
+                    } else {
+                        var door = SpawnPrefab(DoorPrefab, midpoint);	
+
+                        // need to rotate
+                        if (Math.Abs((neighbour - room).Z) > 0) {
+                            // 90 degrees
+                            door.RotateY(Mathf.Pi / 2f);
+                        }
+
+                        var open = rng.Randf() < DoorOpenLikeliness;
+                        var durabilityAdd = rng.Randf() * 6f - 3f;
+                        Door script = door as Door;
+                        script.durability += durabilityAdd;
+                        script.open = open;
+
+                        doors.Add(midpoint, script);
                     }
-				}
+                }
 			}
 		}
 	}
@@ -81,15 +171,16 @@ public partial class BaseGenerator : Node3D
         {
             if (!visitedPositions.Contains(currentPosition))
             {
-                SpawnPrefab(Room, currentPosition);
+                Room room = SpawnPrefab(RoomPrefab, currentPosition) as Room;
                 visitedPositions.Add(currentPosition);
+                rooms.Add(currentPosition, room);
             }
 
             currentPosition += GetRandomDirection();
         }
     }
 
-    private Node3D SpawnPrefab(PackedScene Prefab, Vector3I position)
+    private Node3D SpawnPrefab(PackedScene Prefab, Vector3 position)
     {
         if (Prefab != null)
         {
