@@ -1,30 +1,54 @@
-[gd_scene load_steps=5 format=3 uid="uid://svmci4fpjnp3"]
+[gd_scene load_steps=8 format=3 uid="uid://svmci4fpjnp3"]
 
 [ext_resource type="Script" path="res://Node3d.cs" id="1_n7oxq"]
-[ext_resource type="PackedScene" uid="uid://dxq4a204ub5p4" path="res://player.tscn" id="2_07xsy"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_6e5ys"]
-size = Vector3(60, 2, 60)
-
-[sub_resource type="BoxMesh" id="BoxMesh_5jbte"]
-size = Vector3(60, 2, 60)
+[ext_resource type="PackedScene" uid="uid://d2wybk8wdbehh" path="res://Prefabs/room.tscn" id="2_usydy"]
+[ext_resource type="Script" path="res://BaseGenerator.cs" id="4_hdhgb"]
+[ext_resource type="PackedScene" uid="uid://up2o4qb5l1v0" path="res://Prefabs/wall.tscn" id="4_hrdym"]
+[ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="5_vfcqy"]
+[ext_resource type="PackedScene" uid="uid://bgycd1symka05" path="res://Prefabs/lootgreen.tscn" id="6_hlhqg"]
+[ext_resource type="PackedScene" uid="uid://dnwqr8fg626x5" path="res://Prefabs/lootpurple.tscn" id="7_pfxhg"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_n7oxq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3723, 11.332, 112.07)
+transform = Transform3D(0.999936, 0.00658385, -0.00924616, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 60, 1.954)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0510984, 0.998694, 0, -0.998694, -0.0510984, 0, 11.8703, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_6e5ys")
+[node name="BaseGenerator" type="Node3D" parent="." node_paths=PackedStringArray("DebugButton", "DebugFloodButton")]
+script = ExtResource("4_hdhgb")
+RoomPrefab = ExtResource("2_usydy")
+Wall = ExtResource("4_hrdym")
+DoorPrefab = ExtResource("5_vfcqy")
+LootPrefabs = Array[PackedScene]([ExtResource("6_hlhqg"), ExtResource("7_pfxhg")])
+LootWeights = PackedFloat32Array(3, 1)
+minLoot = 16
+maxLoot = 32
+Steps = 250
+Walks = 1
+DoorOpenLikeliness = 0.6
+DebugButton = NodePath("../Control/Button")
+DebugFloodButton = NodePath("../Control/Button2")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D"]
-mesh = SubResource("BoxMesh_5jbte")
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="StaticBody3D/CollisionShape3D/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00017, 6.52099, 24.7199)
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Regenerate Base"
 
-[node name="Player" parent="." instance=ExtResource("2_07xsy")]
-transform = Transform3D(8.04116, 4.3754, 4.02437, -5.94472, 5.91841, 5.44359, 0, -6.76966, 7.36014, 1.33519, 8.15177, -0.219002)
+[node name="Button2" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 38.0
+offset_right = 139.0
+offset_bottom = 69.0
+text = "Flood Room
+"
