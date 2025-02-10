@@ -6,4 +6,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>UnboundDepths</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".github\workflows\dotnet.yml" />
+  </ItemGroup>
 </Project>
