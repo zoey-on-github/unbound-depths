@@ -12,10 +12,11 @@ size = Vector3(2, 0.1, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6sh28"]
 size = Vector3(2, 0.1, 2)
 
-[node name="Door" type="Node3D" node_paths=PackedStringArray("renderer")]
+[node name="Door" type="Node3D" node_paths=PackedStringArray("renderer", "collider")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 script = ExtResource("1_lcesp")
 renderer = NodePath("Obj/MeshInstance3D")
+collider = NodePath("Obj/CollisionShape3D")
 
 [node name="Obj" type="StaticBody3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1, 0)

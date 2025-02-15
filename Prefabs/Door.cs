@@ -5,6 +5,7 @@ public partial class Door : Node3D
 {
 	[Export] public bool open, broken;
 	[Export] public MeshInstance3D renderer;
+	[Export] public CollisionShape3D collider;
 	[Export] public float durability = 10f;
 
 	// Called when the node enters the scene tree for the first time.
@@ -16,6 +17,7 @@ public partial class Door : Node3D
 	public override void _Process(double delta)
 	{
 		renderer.Visible = !open;
+		collider.Disabled = open;
 	}
 
 	public void Break() {
