@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2wybk8wdbehh"]
+[gd_scene load_steps=8 format=3 uid="uid://d2wybk8wdbehh"]
 
 [ext_resource type="Script" path="res://Room.cs" id="1_m5pxa"]
+[ext_resource type="PackedScene" uid="uid://05aikn4f8hxh" path="res://player.tscn" id="2_8vnjb"]
+[ext_resource type="Script" path="res://Player.cs" id="3_acfmt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fbsq6"]
 albedo_color = Color(0.387743, 0.503293, 1, 1)
@@ -32,3 +34,7 @@ mesh = SubResource("PlaneMesh_3nxmg")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_1g4c5")
+
+[node name="Player" parent="." instance=ExtResource("2_8vnjb")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.273066, 0.506536, -0.316038)
+script = ExtResource("3_acfmt")
