@@ -14,7 +14,7 @@ size = Vector3(2, 2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_1g4c5"]
 size = Vector3(2, 0.1, 2)
 
-[node name="Room" type="Node3D" node_paths=PackedStringArray("water")]
+[node name="Room2" type="Node3D" node_paths=PackedStringArray("water")]
 script = ExtResource("1_m5pxa")
 water = NodePath("MeshInstance3D2")
 
