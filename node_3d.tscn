@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://svmci4fpjnp3"]
+[gd_scene load_steps=10 format=3 uid="uid://svmci4fpjnp3"]
 
 [ext_resource type="Script" path="res://Node3d.cs" id="1_n7oxq"]
 [ext_resource type="PackedScene" uid="uid://d2wybk8wdbehh" path="res://Prefabs/room.tscn" id="2_usydy"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="5_vfcqy"]
 [ext_resource type="PackedScene" uid="uid://bgycd1symka05" path="res://Prefabs/lootgreen.tscn" id="6_hlhqg"]
 [ext_resource type="PackedScene" uid="uid://dnwqr8fg626x5" path="res://Prefabs/lootpurple.tscn" id="7_pfxhg"]
+[ext_resource type="PackedScene" uid="uid://05aikn4f8hxh" path="res://player.tscn" id="8_7e1cx"]
+[ext_resource type="Script" path="res://Player.cs" id="9_eu2mg"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_n7oxq")
@@ -52,3 +54,7 @@ offset_right = 139.0
 offset_bottom = 69.0
 text = "Flood Room
 "
+
+[node name="Player" parent="." instance=ExtResource("8_7e1cx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.273066, 42.6816, -0.316038)
+script = ExtResource("9_eu2mg")
