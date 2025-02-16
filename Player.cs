@@ -10,6 +10,7 @@ public partial class Player : CharacterBody3D
 	[Export] public Vector2 mouseSens;
 	[Export] public Vector2 pitchClamp;
 	public float JumpVelocity = 4.5f;
+	public bool inMenu;
 
     public override void _Ready()
     {
@@ -36,9 +37,9 @@ public partial class Player : CharacterBody3D
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_back");
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction.DistanceTo(Vector3.Zero) > 0.1f)
+		if (direction.DistanceTo(Vector3.Zero) > 0.1f && !inMenu) 
 		{
 			velocity.X = Mathf.MoveToward(velocity.X, direction.X * Speed, accel * (float)delta);
 			velocity.Z = Mathf.MoveToward(velocity.Z, direction.Z * Speed, accel * (float)delta);
@@ -49,14 +50,13 @@ public partial class Player : CharacterBody3D
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, decel * (float)delta);
 		}
 
-
 		Velocity = velocity;
 		MoveAndSlide();
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion eventMouseButton) {
+		if (@event is InputEventMouseMotion eventMouseButton && !inMenu) {
 			var mouseVelocity = eventMouseButton.Relative;
 			RotateY(mouseVelocity.X * mouseSens.X);
 			var pitch = Mathf.Clamp(camera.Rotation.X + (mouseVelocity.Y * mouseSens.Y), pitchClamp.X, pitchClamp.Y);
@@ -69,11 +69,16 @@ public partial class Player : CharacterBody3D
             {
 				Input.MouseMode = Input.MouseModeEnum.Visible;
             }
+
+			if (keyEvent.Keycode == Key.Q) {
+				inMenu = !inMenu;
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
         }
 
         if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
         {
-            if (mouseButton.ButtonIndex == MouseButton.Left) 
+            if (mouseButton.ButtonIndex == MouseButton.Left && !inMenu) 
             {
 				Input.MouseMode = Input.MouseModeEnum.Captured;
             }
