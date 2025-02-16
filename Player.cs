@@ -3,6 +3,7 @@ using System;
 
 public partial class Player : CharacterBody3D
 {
+	public static Player Instance;
 	[Export] public float Speed = 5.0f;
 	[Export] public float decel, accel = 1f;
 	[Export] public Camera3D camera;
@@ -10,7 +11,12 @@ public partial class Player : CharacterBody3D
 	[Export] public Vector2 pitchClamp;
 	public float JumpVelocity = 4.5f;
 
-	public override void _PhysicsProcess(double delta)
+    public override void _Ready()
+    {
+		Instance = this;
+    }
+
+    public override void _PhysicsProcess(double delta)
 	{
 		Vector3 velocity = Velocity;
 

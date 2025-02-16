@@ -43,6 +43,7 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+focus_mode = 0
 text = "Regenerate Base"
 
 [node name="Button2" type="Button" parent="Control"]
@@ -51,5 +52,6 @@ offset_left = 1.0
 offset_top = 38.0
 offset_right = 139.0
 offset_bottom = 69.0
+focus_mode = 0
 text = "Flood Room
 "
