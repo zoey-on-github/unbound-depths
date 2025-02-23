@@ -20,8 +20,7 @@ public partial class BaseGenerator : Node3D
     [Export] public int GridSize = 2; 
     [Export] public float DoorOpenLikeliness = 0.3f;
     [Export] public bool AllowVerticalMovement = false; 
-    [Export] public Button DebugButton, DebugFloodButton;
-    
+    [Export] public Button DebugButton, DebugFloodButton, POVButton;
     private HashSet<Vector3I> visitedPositions = new();
     private RandomNumberGenerator rng = new();
     private Vector3I currentPosition = Vector3I.Zero;
@@ -36,10 +35,15 @@ public partial class BaseGenerator : Node3D
 
         DebugButton.Pressed += GenerateBase;
         DebugFloodButton.Pressed += FloodRandomRoom;
+        POVButton.Pressed += test;
+
     }
 
-    public override void _Process(double delta)
-    {
+    public override void _Process(double delta) {
+    if (Input.IsActionJustPressed("regenerate_base")) {
+            GD.Print("pressed");
+            GenerateBase();
+        }
         foreach (var item in rooms.ToArray()) {
             if (!item.Value.flooded) { continue; }
 
@@ -49,13 +53,20 @@ public partial class BaseGenerator : Node3D
                 if (rooms.ContainsKey(neighbour)) { 
                     if (doors[midpoint].open) {
                         rooms[neighbour].flooded = true;
-                    } else {
+                    }
+                    else {
                         if (doors[midpoint].durability > 0.1f) {
                             doors[midpoint].durability -= (float)delta;
-                        } else {
+                        }
+                        else {
                             doors[midpoint].Break();
                         }
-                    }
+                        /*
+                        if (Input.IsActionJustPressed("regenerate_base")) {
+                            GenerateBase();
+                        }
+                        */
+                }
                 }
             }
         }
@@ -67,6 +78,9 @@ public partial class BaseGenerator : Node3D
         unflooded[rng.RandiRange(0, unflooded.Length - 1)].flooded = true;
     }
 
+        public void test() {
+            GD.Print("test");
+        }
     public void GenerateBase() {
         visitedPositions = new();
         createdWalls = new();
