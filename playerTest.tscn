@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfr8no17kntwt"]
+[gd_scene load_steps=4 format=3 uid="uid://p3w7cfjcfr4g"]
 
-[ext_resource type="PackedScene" uid="uid://05aikn4f8hxh" path="res://player.tscn" id="1_bquvi"]
-[ext_resource type="Script" path="res://Player.cs" id="2_kgwxd"]
+[ext_resource type="PackedScene" uid="uid://cmp1o7v2al77r" path="res://player.tscn" id="1_bquvi"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_55npb"]
 
@@ -12,7 +11,6 @@ size = Vector3(2, 0.1, 2)
 
 [node name="Player" parent="." instance=ExtResource("1_bquvi")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.273066, 0.506536, -0.316038)
-script = ExtResource("2_kgwxd")
 
 [node name="Floor" type="StaticBody3D" parent="."]
 

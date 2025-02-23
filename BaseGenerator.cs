@@ -11,6 +11,8 @@ public struct WeightedPrefab {
 
 public partial class BaseGenerator : Node3D
 {
+    public static BaseGenerator Instance;
+
     [Export] public PackedScene RoomPrefab, Wall, DoorPrefab; 
     [Export] public PackedScene[] LootPrefabs;
     [Export] public float[] LootWeights;
@@ -24,13 +26,14 @@ public partial class BaseGenerator : Node3D
     private HashSet<Vector3I> visitedPositions = new();
     private RandomNumberGenerator rng = new();
     private Vector3I currentPosition = Vector3I.Zero;
-    private Dictionary<Vector3I, Room> rooms = new();
-    private Dictionary<Vector3I, Door> doors = new();
-
-    private HashSet<Vector3I> createdWalls = new();
+    public Dictionary<Vector3I, Room> rooms = new();
+    public Dictionary<Vector3I, Door> doors = new();
+    public List<(Vector3I, bool)> walls = new();
+    public HashSet<Vector3I> visitedMidpoints = new();
 
     public override void _Ready()
     {
+        Instance = this;
         GenerateBase();
 
         DebugButton.Pressed += GenerateBase;
@@ -83,9 +86,10 @@ public partial class BaseGenerator : Node3D
         }
     public void GenerateBase() {
         visitedPositions = new();
-        createdWalls = new();
+        visitedMidpoints = new();
         rooms = new();
         doors = new();
+        walls = new();
 
         foreach (Node child in GetChildren())
         {
@@ -100,6 +104,8 @@ public partial class BaseGenerator : Node3D
 
 		GenerateWalls();
         GenerateLoot();
+
+        afterGenerated?.Invoke();
     }
 
     private void GenerateLoot() {
@@ -135,29 +141,34 @@ public partial class BaseGenerator : Node3D
 
 			foreach (var neighbour in neighbours) {
 				var midpoint = (neighbour + room) / 2;
-                if (!createdWalls.Contains(midpoint)) {
-                    createdWalls.Add(midpoint);
+                if (!visitedMidpoints.Contains(midpoint)) {
+                    visitedMidpoints.Add(midpoint);
 
                     if (!visitedPositions.Contains(neighbour)) {
                         var wall = SpawnPrefab(Wall, midpoint);	
+                        bool rot = false;
 
                         // need to rotate
                         if (Math.Abs((neighbour - room).Z) > 0) {
                             // 90 degrees
                             wall.RotateY(Mathf.Pi / 2f);
+                            rot = true;
                         }
+                        
+                        walls.Add((midpoint, rot));
                     } else {
                         var door = SpawnPrefab(DoorPrefab, midpoint);	
+                        Door script = door as Door;
 
                         // need to rotate
                         if (Math.Abs((neighbour - room).Z) > 0) {
                             // 90 degrees
                             door.RotateY(Mathf.Pi / 2f);
+                            script.rotated = true;
                         }
 
                         var open = rng.Randf() < DoorOpenLikeliness;
                         var durabilityAdd = rng.Randf() * 6f - 3f;
-                        Door script = door as Door;
                         script.durability += durabilityAdd;
                         script.open = open;
 

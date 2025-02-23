@@ -36,6 +36,9 @@ DebugButton = NodePath("../Control/Button")
 DebugFloodButton = NodePath("../Control/Button2")
 POVButton = NodePath("../Control/Button3")
 
+[node name="Player" parent="." instance=ExtResource("8_loafa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.10616, 0)
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -46,6 +49,7 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+focus_mode = 0
 text = "Regenerate Base"
 
 [node name="Button2" type="Button" parent="Control"]
@@ -54,6 +58,7 @@ offset_left = 1.0
 offset_top = 38.0
 offset_right = 139.0
 offset_bottom = 69.0
+focus_mode = 0
 text = "Flood Room
 "
 

@@ -1,16 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://05aikn4f8hxh"]
+[gd_scene load_steps=5 format=3 uid="uid://cmp1o7v2al77r"]
 
+[ext_resource type="Script" path="res://Player.cs" id="1_tdkls"]
 [ext_resource type="PackedScene" uid="uid://cf04d06xhms48" path="res://bean.glb" id="1_w4iw8"]
+[ext_resource type="PackedScene" uid="uid://b0g7rs1w2tskw" path="res://Prefabs/door_controls.tscn" id="3_oylyl"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_54grr"]
 radius = 0.269138
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_tdkls")
+decel = 20.0
+accel = 10.0
+camera = NodePath("Pivot/Camera3D")
+mouseSens = Vector2(-0.003, -0.003)
+pitchClamp = Vector2(-45, 45)
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="bean" parent="Pivot" instance=ExtResource("1_w4iw8")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(3.33333, 0, 0, 0, 3.33333, 0, 0, 0, 3.33333, 0, 0, 0)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_54grr")
+
+[node name="DoorControls" parent="." instance=ExtResource("3_oylyl")]
