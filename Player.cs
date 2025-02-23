@@ -36,7 +36,6 @@ public partial class Player : CharacterBody3D
 */ //i dont think we/re going to need jumping at all for this game
 
 		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_back");
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 		if (direction.DistanceTo(Vector3.Zero) > 0.1f && !inMenu) 

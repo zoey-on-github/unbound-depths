@@ -21,5 +21,9 @@ mesh = SubResource("PlaneMesh_55npb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_uebgt")
 
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999936, 0.00658385, -0.00924615, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, 0.0729963, 9.923, -0.807284)
+current = true
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0510984, 0.998694, 0, -0.998694, -0.0510984, 0, -38.2067, 0)
