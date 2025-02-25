@@ -62,10 +62,8 @@ public partial class Player : CharacterBody3D
 			camera.Rotation = new Vector3(pitch, 0, 0);
 		}
 
-		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
-        {
-            if (keyEvent.Keycode == Key.Escape) 
-            {
+		if (@event is InputEventKey keyEvent && keyEvent.Pressed) {
+            if (keyEvent.Keycode == Key.Escape) {
 				Input.MouseMode = Input.MouseModeEnum.Visible;
             }
 
