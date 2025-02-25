@@ -12,14 +12,13 @@ public partial class DoorControls : Control
 	public Vector2 offset;
 
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
+	public override void _Ready() {
 		baseGen = BaseGenerator.Instance;
 		baseGen.afterGenerated += GenerateUI;
 		GenerateUI();
 	}
 
-	public void GenerateUI() {
+	private void GenerateUI() {
 		foreach (var child in container.GetChildren()) {
 			child.QueueFree();
 		}
@@ -94,7 +93,7 @@ public partial class DoorControls : Control
 			MoveOffset(Vector2.Right);
 		}
 
-		if (Input.IsActionJustPressed("ui-enter")) {
+		if (Input.IsActionJustPressed("ui_accept")) {
 			var point = new Vector3I(Mathf.RoundToInt(offset.X / gridSize), 0, Mathf.RoundToInt(offset.Y / gridSize));
 			baseGen.doors[point].open = !baseGen.doors[point].open;
 		}

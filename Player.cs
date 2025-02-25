@@ -77,7 +77,7 @@ public partial class Player : CharacterBody3D
         {
             if (mouseButton.ButtonIndex == MouseButton.Left && !inMenu) 
             {
-				Input.MouseMode = Input.MouseModeEnum.Captured;
+//				Input.MouseMode = Input.MouseModeEnum.Captured;
             }
         }
 	}

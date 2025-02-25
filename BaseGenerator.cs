@@ -23,6 +23,7 @@ public partial class BaseGenerator : Node3D
     [Export] public float DoorOpenLikeliness = 0.3f;
     [Export] public bool AllowVerticalMovement = false; 
     [Export] public Button DebugButton, DebugFloodButton, POVButton;
+    public event Action afterGenerated;
     private HashSet<Vector3I> visitedPositions = new();
     private RandomNumberGenerator rng = new();
     private Vector3I currentPosition = Vector3I.Zero;

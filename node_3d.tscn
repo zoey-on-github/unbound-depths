@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://svmci4fpjnp3"]
+[gd_scene load_steps=9 format=3 uid="uid://svmci4fpjnp3"]
 
 [ext_resource type="Script" path="res://Node3d.cs" id="1_n7oxq"]
 [ext_resource type="PackedScene" uid="uid://d2wybk8wdbehh" path="res://Prefabs/room.tscn" id="2_usydy"]
@@ -7,8 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="5_vfcqy"]
 [ext_resource type="PackedScene" uid="uid://bgycd1symka05" path="res://Prefabs/lootgreen.tscn" id="6_hlhqg"]
 [ext_resource type="PackedScene" uid="uid://dnwqr8fg626x5" path="res://Prefabs/lootpurple.tscn" id="7_pfxhg"]
-[ext_resource type="PackedScene" uid="uid://05aikn4f8hxh" path="res://player.tscn" id="8_7e1cx"]
-[ext_resource type="Script" path="res://Player.cs" id="9_eu2mg"]
+[ext_resource type="PackedScene" uid="uid://cmp1o7v2al77r" path="res://player.tscn" id="8_7e1cx"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_n7oxq")
@@ -36,9 +35,6 @@ DebugButton = NodePath("../Control/Button")
 DebugFloodButton = NodePath("../Control/Button2")
 POVButton = NodePath("../Control/Button3")
 
-[node name="Player" parent="." instance=ExtResource("8_loafa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.10616, 0)
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -49,7 +45,6 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
-focus_mode = 0
 text = "Regenerate Base"
 
 [node name="Button2" type="Button" parent="Control"]
@@ -58,11 +53,11 @@ offset_left = 1.0
 offset_top = 38.0
 offset_right = 139.0
 offset_bottom = 69.0
-focus_mode = 0
 text = "Flood Room
 "
 
 [node name="Button3" type="Button" parent="Control"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 76.0
 offset_right = 140.0
@@ -71,7 +66,6 @@ text = "Switch camera"
 
 [node name="Player" parent="." instance=ExtResource("8_7e1cx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.273066, 42.6816, -0.316038)
-script = ExtResource("9_eu2mg")
+decel = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-visible = false
