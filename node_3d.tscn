@@ -69,3 +69,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.273066, 42.6816, -0.316038
 decel = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
+visible = false
+current = true

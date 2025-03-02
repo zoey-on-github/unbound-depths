@@ -81,10 +81,19 @@ public partial class BaseGenerator : Node3D {
     }
 
     private void test() {
-        var firstPersoncamera = GetNode<Camera3D>("../Player/Camera3D");
-        GD.Print(firstPersoncamera.Visible);
+        var firstPersonCamera = GetNode<Camera3D>("../Player/Camera3D");
+        var thirdPersonCamera = GetNode<Camera3D>("../Camera3D");
+        GD.Print(firstPersonCamera.Current);
+        if (thirdPersonCamera.Current) {
+            thirdPersonCamera.Current = false;
+            firstPersonCamera.Current = true;
+        }
+        else {
+            thirdPersonCamera.Current = true;
+            firstPersonCamera.Current = false;
+        }
 
-    }
+}
     public void GenerateBase() {
         visitedPositions = new();
         visitedMidpoints = new();
