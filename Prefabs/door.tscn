@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ctwjpp2rnbkw"]
 
-[ext_resource type="Script" path="res://Prefabs/Door.cs" id="1_lcesp"]
+[ext_resource type="Script" uid="uid://bp8nkjr7d6yym" path="res://Prefabs/Door.cs" id="1_lcesp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2tcc"]
 albedo_color = Color(0, 1, 0, 1)

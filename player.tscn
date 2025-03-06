@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cmp1o7v2al77r"]
 
-[ext_resource type="Script" path="res://Player.cs" id="1_tdkls"]
+[ext_resource type="Script" uid="uid://26oermlib8gf" path="res://Player.cs" id="1_tdkls"]
 [ext_resource type="PackedScene" uid="uid://cf04d06xhms48" path="res://bean.glb" id="1_w4iw8"]
 [ext_resource type="PackedScene" uid="uid://b0g7rs1w2tskw" path="res://Prefabs/door_controls.tscn" id="3_oylyl"]
 

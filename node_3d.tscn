@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://svmci4fpjnp3"]
 
-[ext_resource type="Script" path="res://Node3d.cs" id="1_n7oxq"]
+[ext_resource type="Script" uid="uid://qgy4aq66ksj1" path="res://Node3d.cs" id="1_n7oxq"]
 [ext_resource type="PackedScene" uid="uid://d2wybk8wdbehh" path="res://Prefabs/room.tscn" id="2_usydy"]
-[ext_resource type="Script" path="res://BaseGenerator.cs" id="4_hdhgb"]
+[ext_resource type="Script" uid="uid://08naw8hho67v" path="res://BaseGenerator.cs" id="4_hdhgb"]
 [ext_resource type="PackedScene" uid="uid://up2o4qb5l1v0" path="res://Prefabs/wall.tscn" id="4_hrdym"]
 [ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="5_vfcqy"]
 [ext_resource type="PackedScene" uid="uid://bgycd1symka05" path="res://Prefabs/lootgreen.tscn" id="6_hlhqg"]
