@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0g7rs1w2tskw"]
 
-[ext_resource type="Script" path="res://Prefabs/DoorControls.cs" id="1_rh6sq"]
+[ext_resource type="Script" uid="uid://wp0vtjaat8ig" path="res://Prefabs/DoorControls.cs" id="1_rh6sq"]
 [ext_resource type="PackedScene" uid="uid://dthfpstp1yqyw" path="res://Prefabs/room_ui.tscn" id="2_2065p"]
 [ext_resource type="PackedScene" uid="uid://dua428u4tviaa" path="res://Prefabs/doorui.tscn" id="2_n1gd6"]
 
