@@ -13,7 +13,7 @@
 script = ExtResource("1_n7oxq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.999936, 0.00658385, -0.00924616, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 60, 1.954)
+transform = Transform3D(0.999936, 0.00658385, -0.00924615, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 60, 16.8259)
 current = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -68,8 +68,9 @@ text = "Switch camera"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.273066, 42.6816, -0.316038)
 decel = 1.0
 camera = NodePath("Camera3D")
-mouseSens = Vector2(1, 1)
+mouseSens = Vector2(1, 1000)
 pitchClamp = Vector2(1, 100)
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
+visible = false
 current = true
