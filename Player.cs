@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class Player : CharacterBody3D {
@@ -11,11 +12,11 @@ public partial class Player : CharacterBody3D {
 	public float JumpVelocity = 4.5f;
 	public bool inMenu;
 
-    public override void _Ready() {
+	public override void _Ready() {
 		Instance = this;
-    }
+	}
 
-    public override void _PhysicsProcess(double delta) {
+	public override void _PhysicsProcess(double delta) {
 		Vector3 velocity = Velocity;
 
 		// Add the gravity.
@@ -48,28 +49,46 @@ public partial class Player : CharacterBody3D {
 	}
 
 	public override void _Input(InputEvent @event) {
+		var playerCharacter = GetNode<CharacterBody3D>("../Player");
+		var thirdPersonCamera = GetNode<Camera3D>("../Camera3D");
 		if (@event is InputEventMouseMotion eventMouseButton && !inMenu) {
-			var mouseVelocity = eventMouseButton.Relative;
-			RotateY(mouseVelocity.X * mouseSens.X);
-			var pitch = Mathf.Clamp(camera.Rotation.X + (mouseVelocity.Y * mouseSens.Y), pitchClamp.X, pitchClamp.Y);
-			camera.Rotation = new Vector3(pitch, 0, 0);
-		}
-
-		if (@event is InputEventKey keyEvent && keyEvent.Pressed) {
-            if (keyEvent.Keycode == Key.Escape) {
-				Input.MouseMode = Input.MouseModeEnum.Visible;
-            }
-
-			if (keyEvent.Keycode == Key.Q) {
-				inMenu = !inMenu;
-				Input.MouseMode = Input.MouseModeEnum.Visible;
+			if (thirdPersonCamera.Current) {
+				PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+				Vector2 mousePosition = GetViewport().GetMousePosition();
+				Vector3 rayOrigin = thirdPersonCamera.ProjectRayOrigin(mousePosition);
+				Vector3 rayEnd = rayOrigin + thirdPersonCamera.ProjectRayNormal(mousePosition) * 2000;
+				playerCharacter.LookAt(rayEnd);
 			}
-        }
 
-        if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed) {
-            if (mouseButton.ButtonIndex == MouseButton.Left && !inMenu) {
+			else {
+				var mouseVelocity = eventMouseButton.Relative;
+				RotateY(mouseVelocity.X * mouseSens.X);
+				//	RotateX(mouseVelocity.Y * mouseSens.Y);
+				GD.Print(playerCharacter.Rotation);
+				var pitch = Mathf.Clamp(camera.Rotation.X + (mouseVelocity.Y * mouseSens.Y), pitchClamp.X, pitchClamp.Y);
+				camera.Rotation = new Vector3(pitch, 0, 0);
+				GD.Print(pitch);
+			}
+
+			//	GD.Print(camera.Rotation);
+			//	break;
+
+			if (@event is InputEventKey keyEvent && keyEvent.Pressed) {
+				if (keyEvent.Keycode == Key.Escape) {
+					Input.MouseMode = Input.MouseModeEnum.Visible;
+				}
+
+				if (keyEvent.Keycode == Key.Q) {
+					inMenu = !inMenu;
+					Input.MouseMode = Input.MouseModeEnum.Visible;
+				}
+			}
+
+			if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed) {
+				if (mouseButton.ButtonIndex == MouseButton.Left && !inMenu) {
 //				Input.MouseMode = Input.MouseModeEnum.Captured;
-            }
-        }
+				}
+			}
+		}
 	}
 }

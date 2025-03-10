@@ -80,7 +80,7 @@ public partial class BaseGenerator : Node3D {
         unflooded[rng.RandiRange(0, unflooded.Length - 1)].flooded = true;
     }
 
-    private void test() {
+    public void test() {
         var firstPersonCamera = GetNode<Camera3D>("../Player/Camera3D");
         var thirdPersonCamera = GetNode<Camera3D>("../Camera3D");
         GD.Print(firstPersonCamera.Current);
