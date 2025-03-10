@@ -48,11 +48,29 @@ public partial class Player : CharacterBody3D {
 	}
 
 	public override void _Input(InputEvent @event) {
+		var playerCharacter = GetNode<CharacterBody3D>("../Player");
+        var thirdPersonCamera = GetNode<Camera3D>("../Camera3D");
 		if (@event is InputEventMouseMotion eventMouseButton && !inMenu) {
+			if (thirdPersonCamera.Current) {
+				var rayOrigin = new Vector3();
+				var rayEnd = new Vector3();
+				var spaceState = GetWorld3D().DirectSpaceState;
+				var mousePosition = GetViewport().GetMousePosition();
+				var query = PhysicsRayQueryParameters3D.Create(RayOrigin, RayEnd);
+				var intersection = spaceState.IntersectRay(query);
+				rayOrigin = thirdPersonCamera.ProjectRayOrigin(mousePosition);
+				rayEnd = rayOrigin + thirdPersonCamera.ProjectRayNormal(mousePosition) * 2000;
+
+				if (intersection.Count = 0)
+			}
 			var mouseVelocity = eventMouseButton.Relative;
 			RotateY(mouseVelocity.X * mouseSens.X);
+		//	RotateX(mouseVelocity.Y * mouseSens.Y);
+			GD.Print(playerCharacter.Rotation);
 			var pitch = Mathf.Clamp(camera.Rotation.X + (mouseVelocity.Y * mouseSens.Y), pitchClamp.X, pitchClamp.Y);
 			camera.Rotation = new Vector3(pitch, 0, 0);
+			GD.Print(pitch);
+		//	GD.Print(camera.Rotation);
 		}
 
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed) {
@@ -68,7 +86,7 @@ public partial class Player : CharacterBody3D {
 
         if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed) {
             if (mouseButton.ButtonIndex == MouseButton.Left && !inMenu) {
-//				Input.MouseMode = Input.MouseModeEnum.Captured;
+	            //	Input.MouseMode = Input.MouseModeEnum.Captured;
             }
         }
 	}
