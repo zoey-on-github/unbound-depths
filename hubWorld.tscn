@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ba07lgnodl5ck"]
+[gd_scene load_steps=5 format=3 uid="uid://ba07lgnodl5ck"]
 
 [ext_resource type="PackedScene" uid="uid://cmp1o7v2al77r" path="res://player.tscn" id="1_se4uw"]
+[ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="2_4asmp"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_se4uw"]
 
@@ -49,3 +50,6 @@ visible = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0510984, 0.998694, 0, -0.998694, -0.0510984, 0, 11.8703, 0)
+
+[node name="Door" parent="." instance=ExtResource("2_4asmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0765767, 0, -53.3479)
