@@ -1,0 +1,30 @@
+[gd_scene load_steps=0 format=3 uid="uid://dkmir4m1l2w47"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Regenerate Base"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 38.0
+offset_right = 139.0
+offset_bottom = 69.0
+text = "Flood Room
+"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 76.0
+offset_right = 140.0
+offset_bottom = 107.0
+text = "Switch camera"

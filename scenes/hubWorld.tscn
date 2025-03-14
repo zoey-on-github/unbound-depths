@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://ba07lgnodl5ck"]
+
+[ext_resource type="PackedScene" uid="uid://cmp1o7v2al77r" path="res://player.tscn" id="1_se4uw"]
+[ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="2_4asmp"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_se4uw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4asmp"]
+size = Vector3(2, 0.1, 2)
+
+[node name="HubWorld" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999936, 0.00658385, -0.00924615, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 60, 16.8259)
+current = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_se4uw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_4asmp")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button3" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 1.0
+offset_right = 137.0
+offset_bottom = 32.0
+text = "Switch camera"
+
+[node name="Player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("1_se4uw")]
+transform = Transform3D(0.994422, 0.00111072, -0.105465, 0.00956308, -0.996775, 0.0796723, -0.105036, -0.0802365, -0.991226, 7.33463, 6.05629, 8.38105)
+decel = 1.0
+camera = NodePath("../Camera3D")
+mouseSens = Vector2(1, 1000)
+pitchClamp = Vector2(1, 100)
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+visible = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0510984, 0.998694, 0, -0.998694, -0.0510984, 0, 11.8703, 0)
+
+[node name="Door" parent="." instance=ExtResource("2_4asmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0765767, 0, -53.3479)
