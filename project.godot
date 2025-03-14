@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Unbound Depths"
-run/main_scene="res://node_3d.tscn"
+run/main_scene="res://scenes/node_3d.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
-DiscordRPCHandler="*res://discordRpcAutoload.gd"
+DiscordRPCHandler="*res://src/discordRpcAutoload.gd"
 
 [dotnet]
 
