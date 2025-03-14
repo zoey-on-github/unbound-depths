@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include=".github\workflows\dotnet.yml" />
+    <Content Include="discordRpcAutoload.gd" />
   </ItemGroup>
 </Project>
