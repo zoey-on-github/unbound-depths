@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://ba07lgnodl5ck"]
+[gd_scene load_steps=4 format=3 uid="uid://ba07lgnodl5ck"]
 
-[ext_resource type="PackedScene" uid="uid://cmp1o7v2al77r" path="res://player.tscn" id="1_se4uw"]
-[ext_resource type="PackedScene" uid="uid://ctwjpp2rnbkw" path="res://Prefabs/door.tscn" id="2_4asmp"]
+[ext_resource type="PackedScene" uid="uid://cmp1o7v2al77r" path="res://scenes/player.tscn" id="1_se4uw"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_se4uw"]
 
@@ -11,18 +10,8 @@ size = Vector3(2, 0.1, 2)
 [node name="HubWorld" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.999936, 0.00658385, -0.00924615, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 60, 16.8259)
+transform = Transform3D(0.999936, 0.00658385, -0.00924615, 0.00885999, 0.0564458, 0.998366, 0.007095, -0.998384, 0.0563838, -1.142, 80.9237, -1.60316)
 current = true
-
-[node name="Floor" type="StaticBody3D" parent="."]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-mesh = SubResource("PlaneMesh_se4uw")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-shape = SubResource("BoxShape3D_4asmp")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -51,5 +40,31 @@ visible = false
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0510984, 0.998694, 0, -0.998694, -0.0510984, 0, 11.8703, 0)
 
-[node name="Door" parent="." instance=ExtResource("2_4asmp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0765767, 0, -53.3479)
+[node name="door" type="StaticBody3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, -0.422767, -9.99106, 0, 9.99106, -0.422767, 0.960039, 10.0843, -47.0129)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="door"]
+mesh = SubResource("PlaneMesh_se4uw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_4asmp")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Area3D"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D/Floor"]
+mesh = SubResource("PlaneMesh_se4uw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_4asmp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("PlaneMesh_se4uw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_4asmp")
